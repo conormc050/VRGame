@@ -1,0 +1,26 @@
+ing UnityEngine;
+using UnityEngine.Events;
+
+public class VRButton : MonoBehaviour
+{
+    public UnityEvent onPressed;    // Assign GameManager.StartGame() here
+    public float pressDistance = 0.02f; // How far to press before it counts
+    public Transform startPos;
+    public Transform endPos;
+    private bool isPressed = false;
+    private float pressThreshold = 0.015f;
+
+    void Update()
+    {
+        float distance = Vector3.Distance(startPos.position, transform.position);
+        if (!isPressed && distance > pressThreshold)
+        {
+            isPressed = true;
+            onPressed.Invoke();
+        }
+        else if (isPressed && distance < pressThreshold * 0.5f)
+        {
+            isPressed = false;
+        }
+    }
+}
