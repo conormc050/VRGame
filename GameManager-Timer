@@ -1,0 +1,40 @@
+using UnityEngine;
+using TMPro;
+
+public class GameManager : MonoBehaviour
+{
+    public float timeLimit = 60f;
+    public TextMeshProUGUI timerText;
+    private float timer;
+    private bool isPlaying;
+
+    void Start()
+    {
+        timer = timeLimit;
+    }
+
+    void Update()
+    {
+        if (!isPlaying) return;
+
+        timer -= Time.deltaTime;
+        timerText.text = $"Time: {Mathf.Ceil(timer)}";
+
+        if (timer <= 0)
+        {
+            EndGame();
+        }
+    }
+
+    public void StartGame()
+    {
+        isPlaying = true;
+        timer = timeLimit;
+    }
+
+    public void EndGame()
+    {
+        isPlaying = false;
+        // TODO: Disable grabbing or trigger end screen
+    }
+}
