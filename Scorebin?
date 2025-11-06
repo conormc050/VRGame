@@ -1,16 +1,25 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class ScoreBin : MonoBehaviour
 {
-    public string acceptedTag;
-    public GameManager gameManager;
+    public string TrashTag;
+    public GameManager gm;
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag(acceptedTag))
+        if (other.CompareTag(TrashTag))
         {
-            gameManager.AddScore(1);
+            if (gm != null)
+            {
+                gm.AddScore(1);
+            }
+            else
+            {
+                Debug.LogWarning("Nope" + gameObject.name);
+            }
         }
     }
 }
