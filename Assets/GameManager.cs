@@ -1,0 +1,78 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TMPro;
+using UnityEngine.XR.Interaction.Toolkit;
+
+public class GameManager : MonoBehaviour
+{
+    public float timeLimit = 60f;
+    public TextMeshProUGUI timerText;
+    public TextMeshProUGUI scoreText;
+    public XRDirectInteractor leftHandDirect;
+    public XRDirectInteractor rightHandDirect;
+
+    private float timer;
+    private bool isPlaying;
+    private int score = 0;
+
+    void Start()
+    {
+        timer = timeLimit;
+        UpdateTimerText();
+        UpdateScoreText();
+    }
+
+    void Update()
+    {
+        if (!isPlaying) return;
+
+        timer -= Time.deltaTime;
+        UpdateTimerText();
+
+        if (timer <= 0)
+        {
+            timer = 0;
+            EndGame();
+        }
+    }
+
+    public void StartGame()
+    {
+        isPlaying = true;
+        timer = timeLimit;
+        score = 0;
+        UpdateTimerText();
+        UpdateScoreText();
+    }
+
+    public void EndGame()
+    {
+        isPlaying = false;
+        leftHandDirect.enabled = false;
+        rightHandDirect.enabled = false;
+        UpdateTimerText();
+    }
+
+    private void UpdateTimerText()
+    {
+        if (timerText != null)
+        {
+            timerText.text = $"Time: {Mathf.Ceil(timer)}";
+        }
+    }
+
+    private void UpdateScoreText()
+    {
+        if (scoreText != null)
+        {
+            scoreText.text = $"Score: {score}";
+        }
+    }
+
+    public void AddScore(int amount)
+    {
+        score += amount;
+        UpdateScoreText();
+    }
+}
